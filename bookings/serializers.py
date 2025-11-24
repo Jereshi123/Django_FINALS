@@ -13,7 +13,8 @@ class BookingSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'passenger', 'passenger_name', 'driver', 'driver_name', 
             'vehicle', 'vehicle_details',
-            'pickup_location', 'dropoff_location',
+            'pickup_location', 'pickup_geolocation',
+            'dropoff_location', 'dropoff_geolocation',
             'pickup_time', 'status', 'fare',
             'created_at', 'updated_at'
         ]

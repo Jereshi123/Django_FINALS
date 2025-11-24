@@ -66,6 +66,7 @@ class BookingViewSet(viewsets.ModelViewSet):
         return Booking.objects.all()
 
     def perform_destroy(self, instance):
+        """Soft delete instead of hard delete"""
         instance.soft_delete()
 
     @action(detail=True, methods=['post'], permission_classes=[permissions.IsAuthenticated])
