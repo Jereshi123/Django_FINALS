@@ -22,4 +22,6 @@ class Vehicle(SoftDeleteModel):
     
         
     def __str__(self):
-        return f"{self.model} - {self.plate_number}"
+        # Use vehicle_type (previously named `model`) and handle None
+        vtype = self.vehicle_type or 'Unknown'
+        return f"{vtype} - {self.plate_number}"

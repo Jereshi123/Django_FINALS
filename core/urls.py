@@ -16,29 +16,61 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from bookings.views import BookingViewSet
-from users.views import UserViewSet
-from payments.views import PaymentViewSet
-from vehicles.views import VehicleViewSet
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-# Create router and register viewsets
-router = DefaultRouter()
-router.register(r'bookings', BookingViewSet, basename='booking')
-router.register(r'users', UserViewSet, basename='user')
-router.register(r'payments', PaymentViewSet, basename='payment')
-router.register(r'vehicles', VehicleViewSet, basename='vehicle')
+# Generic views from each app
+from bookings.views import (
+    BookingListCreateAPIView, BookingRetrieveUpdateDestroyAPIView,
+    AcceptBookingAPIView, StartBookingAPIView, CompleteBookingAPIView, CancelBookingAPIView
+)
+from vehicles.views import (
+    VehicleListCreateAPIView, VehicleRetrieveUpdateDestroyAPIView,
+    AvailableVehiclesAPIView, UpdateVehicleStatusAPIView
+)
+from payments.views import (
+    PaymentListCreateAPIView, PaymentRetrieveUpdateDestroyAPIView,
+    VerifyPaymentAPIView, RejectPaymentAPIView
+)
+from users.views import (
+    UserRegisterAPIView, UserListAPIView, UserRetrieveUpdateDestroyAPIView,
+    UserProfileAPIView, ChangePasswordAPIView, DriverListAPIView, PassengerListAPIView
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls')),
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    
+    # Bookings endpoints
+    path('api/bookings/', BookingListCreateAPIView.as_view(), name='booking-list-create'),
+    path('api/bookings/<int:pk>/', BookingRetrieveUpdateDestroyAPIView.as_view(), name='booking-detail'),
+    path('api/bookings/<int:pk>/accept/', AcceptBookingAPIView.as_view(), name='booking-accept'),
+    path('api/bookings/<int:pk>/start/', StartBookingAPIView.as_view(), name='booking-start'),
+    path('api/bookings/<int:pk>/complete/', CompleteBookingAPIView.as_view(), name='booking-complete'),
+    path('api/bookings/<int:pk>/cancel/', CancelBookingAPIView.as_view(), name='booking-cancel'),
+    
+    # Vehicles endpoints
+    path('api/vehicles/', VehicleListCreateAPIView.as_view(), name='vehicle-list-create'),
+    path('api/vehicles/<int:pk>/', VehicleRetrieveUpdateDestroyAPIView.as_view(), name='vehicle-detail'),
+    path('api/vehicles/available/', AvailableVehiclesAPIView.as_view(), name='vehicle-available'),
+    path('api/vehicles/<int:pk>/status/', UpdateVehicleStatusAPIView.as_view(), name='vehicle-update-status'),
+    
+    # Payments endpoints
+    path('api/payments/', PaymentListCreateAPIView.as_view(), name='payment-list-create'),
+    path('api/payments/<int:pk>/', PaymentRetrieveUpdateDestroyAPIView.as_view(), name='payment-detail'),
+    path('api/payments/<int:pk>/verify/', VerifyPaymentAPIView.as_view(), name='payment-verify'),
+    path('api/payments/<int:pk>/reject/', RejectPaymentAPIView.as_view(), name='payment-reject'),
+    
+    # Users endpoints
+    path('api/users/register/', UserRegisterAPIView.as_view(), name='user-register'),
+    path('api/users/', UserListAPIView.as_view(), name='user-list'),
+    path('api/users/<int:pk>/', UserRetrieveUpdateDestroyAPIView.as_view(), name='user-detail'),
+    path('api/users/profile/', UserProfileAPIView.as_view(), name='user-profile'),
+    path('api/users/change-password/', ChangePasswordAPIView.as_view(), name='user-change-password'),
+    path('api/users/drivers/', DriverListAPIView.as_view(), name='user-drivers'),
+    path('api/users/passengers/', PassengerListAPIView.as_view(), name='user-passengers'),
+
+    path('api/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
 
 
