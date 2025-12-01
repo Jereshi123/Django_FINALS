@@ -32,8 +32,6 @@ class BookingListCreateAPIView(generics.ListCreateAPIView):
             vehicle=available_vehicle,
             status='PENDING'
         )
-        available_vehicle.status = 'ON_TRIP'
-        available_vehicle.save()
         return booking
 
 
@@ -81,6 +79,10 @@ class StartBookingAPIView(BookingActionBase):
             return Response({"error": "Only ACCEPTED bookings can be started"}, status=400)
         booking.status = 'ONGOING'
         booking.save()
+
+        if booking.vehicle:
+            booking.vehicle.status = 'ON_TRIP'
+            booking.vehicle.save()
         return Response(BookingSerializer(booking).data)
 
 
