@@ -32,6 +32,8 @@ class BookingListCreateAPIView(generics.ListCreateAPIView):
             vehicle=available_vehicle,
             status='PENDING'
         )
+        available_vehicle.status = 'ON_TRIP'
+        available_vehicle.save()
         return booking
 
 
@@ -79,10 +81,6 @@ class StartBookingAPIView(BookingActionBase):
             return Response({"error": "Only ACCEPTED bookings can be started"}, status=400)
         booking.status = 'ONGOING'
         booking.save()
-
-        if booking.vehicle:
-            booking.vehicle.status = 'ON_TRIP'
-            booking.vehicle.save()
         return Response(BookingSerializer(booking).data)
 
 
@@ -117,4 +115,22 @@ class CancelBookingAPIView(BookingActionBase):
         if booking.vehicle:
             booking.vehicle.status = 'AVAILABLE'
             booking.vehicle.save()
+        return Response(BookingSerializer(booking).data)
+    
+class RestoreBookingAPIView(generics.UpdateAPIView):
+    serializer_class = BookingSerializer
+    queryset = Booking.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
+
+    def update(self, request, pk, *args, **kwargs):
+        try:
+            booking = Booking.objects.get(pk=pk)
+        except Booking.DoesNotExist:
+            return Response({"error": "Booking not found"}, status=404)
+        
+        if not booking.is_deleted:
+            return Response({"error": "The booking is not deleted"}, status=400)
+        
+        booking.is_deleted = False
+        booking.save()
         return Response(BookingSerializer(booking).data)

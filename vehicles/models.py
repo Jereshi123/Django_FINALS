@@ -1,8 +1,7 @@
 from django.db import models
 from users.models import User
-from core.models import SoftDeleteModel
 
-class Vehicle(SoftDeleteModel):
+class Vehicle(models.Model):
     STATUS_CHOICES = (
         ('AVAILABLE', 'Available'),
         ('ON_TRIP', 'On Trip'),
@@ -19,6 +18,9 @@ class Vehicle(SoftDeleteModel):
     vehicle_type = models.CharField(max_length=20, choices=VEHICLE_CHOICES, null=True)
     plate_number = models.CharField(max_length=20, unique=True)
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='AVAILABLE')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    is_deleted = models.BooleanField(default=False)
     
         
     def __str__(self):

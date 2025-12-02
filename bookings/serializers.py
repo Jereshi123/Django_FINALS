@@ -16,7 +16,7 @@ class BookingSerializer(serializers.ModelSerializer):
             'pickup_location', 'pickup_geolocation',
             'dropoff_location', 'dropoff_geolocation',
             'pickup_time', 'status', 'fare',
-            'created_at', 'updated_at'
+            'created_at', 'updated_at', 'is_deleted'
         ]
         read_only_fields = ['id', 'created_at', 'updated_at']
 
@@ -24,4 +24,4 @@ class BookingSerializer(serializers.ModelSerializer):
 class BookingListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Booking
-        fields = ['id', 'passenger', 'status', 'fare', 'pickup_time', 'created_at']
+        fields = ['id', 'passenger', 'status', 'fare', 'pickup_time', 'created_at', 'updated_at', 'is_deleted']

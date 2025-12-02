@@ -1,9 +1,8 @@
 from django.conf import settings
 from django.db import models
 from vehicles.models import Vehicle
-from core.models import SoftDeleteModel
 
-class Booking(SoftDeleteModel):
+class Booking(models.Model):
     STATUS_CHOICES = (
         ('PENDING', 'Pending'),
         ('ACCEPTED', 'Accepted'),
@@ -29,6 +28,7 @@ class Booking(SoftDeleteModel):
     fare = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    is_deleted = models.BooleanField(default=False)
 
     def __str__(self):
         try:

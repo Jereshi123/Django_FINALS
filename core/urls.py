@@ -19,22 +19,11 @@ from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 # Generic views from each app
-from bookings.views import (
-    BookingListCreateAPIView, BookingRetrieveUpdateDestroyAPIView,
-    AcceptBookingAPIView, StartBookingAPIView, CompleteBookingAPIView, CancelBookingAPIView
-)
-from vehicles.views import (
-    VehicleListCreateAPIView, VehicleRetrieveUpdateDestroyAPIView,
-    AvailableVehiclesAPIView, UpdateVehicleStatusAPIView
-)
-from payments.views import (
-    PaymentListCreateAPIView, PaymentRetrieveUpdateDestroyAPIView,
-    VerifyPaymentAPIView, RejectPaymentAPIView
-)
-from users.views import (
-    UserRegisterAPIView, UserListAPIView, UserRetrieveUpdateDestroyAPIView,
-    UserProfileAPIView, ChangePasswordAPIView, DriverListAPIView, PassengerListAPIView
-)
+from bookings.views import *
+from vehicles.views import *
+from payments.views import *
+from users.views import *
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -47,6 +36,7 @@ urlpatterns = [
     path('api/bookings/<int:pk>/start/', StartBookingAPIView.as_view(), name='booking-start'),
     path('api/bookings/<int:pk>/complete/', CompleteBookingAPIView.as_view(), name='booking-complete'),
     path('api/bookings/<int:pk>/cancel/', CancelBookingAPIView.as_view(), name='booking-cancel'),
+    path('api/bookings/restore/<int:pk>/', RestoreBookingAPIView.as_view(), name='booking-restore'),
     
     # Vehicles endpoints
     path('api/vehicles/', VehicleListCreateAPIView.as_view(), name='vehicle-list-create'),

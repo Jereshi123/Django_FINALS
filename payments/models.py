@@ -1,8 +1,7 @@
 from django.db import models
 from bookings.models import Booking
-from core.models import SoftDeleteModel
 
-class Payment(SoftDeleteModel):
+class Payment(models.Model):
     payment_method_CHOICES = [
         ('Cash', 'Cash'),
         ('Credit Card', 'Credit Card'),
@@ -23,6 +22,7 @@ class Payment(SoftDeleteModel):
     status = models.CharField(max_length=20, choices= status_CHOICES, default='Pending')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    is_deleted = models.BooleanField(default=False)
 
     def __str__(self):
         return f"Payment for Booking {self.booking.id} - {self.status}"
