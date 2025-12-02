@@ -9,3 +9,5 @@ class VehicleSerializer(serializers.ModelSerializer):
         model = Vehicle
         fields = ['id', 'driver', 'driver_details', 'plate_number', 'status']
         read_only_fields = ['id']
+
+        

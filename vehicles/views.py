@@ -41,7 +41,7 @@ class UpdateVehicleStatusAPIView(APIView):
             return Response({"error": "Vehicle not found"}, status=404)
 
         new_status = request.data.get('status')
-        valid_statuses = ['AVAILABLE', 'ON_TRIP', 'MAINTENANCE']
+        valid_statuses = ['Available', 'On Trip', 'Maintenance']
         
         if new_status not in valid_statuses:
             return Response(
