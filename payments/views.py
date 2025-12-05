@@ -1,6 +1,7 @@
 from rest_framework import generics, permissions, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.exceptions import PermissionDenied, NotFound
 from .models import Payment
 from .serializers import PaymentSerializer, PaymentDetailSerializer
 from bookings.models import Booking
@@ -25,10 +26,10 @@ class PaymentListCreateAPIView(generics.ListCreateAPIView):
         try:
             booking = Booking.objects.get(id=booking_id)
         except Booking.DoesNotExist:
-            raise ValueError("Booking not found")
+            raise NotFound("Booking not found")
         
         if booking.passenger != self.request.user:
-            raise PermissionError("You can only create payments for your own bookings")
+            raise PermissionDenied("You can only create payments for your own bookings")
         
         serializer.save()
 

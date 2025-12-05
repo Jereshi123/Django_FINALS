@@ -58,6 +58,7 @@ urlpatterns = [
     path('api/users/change-password/', ChangePasswordAPIView.as_view(), name='user-change-password'),
     path('api/users/drivers/', DriverListAPIView.as_view(), name='user-drivers'),
     path('api/users/passengers/', PassengerListAPIView.as_view(), name='user-passengers'),
+    path('api/passengers/', PassengerListAPIView.as_view(), name='passengers'),
 
     path('api/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/refresh/', TokenRefreshView.as_view(), name='token_refresh'),

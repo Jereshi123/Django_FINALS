@@ -17,6 +17,6 @@ class PaymentDetailSerializer(serializers.ModelSerializer):
         model = Payment
         fields = [
             'id', 'booking', 'booking_id', 'booking_status', 'passenger_username',
-            'amount', 'payment_method', 'status', 'created_at', 'updated_at'
+            'amount', 'payment_method', 'status', 'created_at', 'updated_at', 'is_deleted'
         ]
-        read_only_fields = ['id', 'created_at', 'updated_at']
+        read_only_fields = ['id', 'created_at', 'updated_at', 'is_deleted']

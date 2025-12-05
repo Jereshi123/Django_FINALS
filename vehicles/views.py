@@ -8,7 +8,6 @@ from .serializers import VehicleSerializer
 class VehicleListCreateAPIView(generics.ListCreateAPIView):
     queryset = Vehicle.objects.all()
     serializer_class = VehicleSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
     def get_permissions(self):
         if self.request.method == 'POST':
@@ -19,7 +18,7 @@ class VehicleListCreateAPIView(generics.ListCreateAPIView):
 class VehicleRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Vehicle.objects.all()
     serializer_class = VehicleSerializer
-    permission_classes = [permissions.IsAdminUser()]
+    permission_classes = [permissions.IsAdminUser]
 
     def perform_destroy(self, instance):
         instance.soft_delete()

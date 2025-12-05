@@ -24,5 +24,9 @@ class Payment(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     is_deleted = models.BooleanField(default=False)
 
+    def soft_delete(self):
+        self.is_deleted = True
+        self.save(update_fields=['is_deleted'])
+
     def __str__(self):
         return f"Payment for Booking {self.booking.id} - {self.status}"

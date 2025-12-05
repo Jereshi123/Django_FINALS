@@ -30,6 +30,10 @@ class Booking(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     is_deleted = models.BooleanField(default=False)
 
+    def soft_delete(self):
+        self.is_deleted = True
+        self.save(update_fields=['is_deleted'])
+
     def __str__(self):
         try:
             return f"Booking {self.id} - {self.pickup_location} to {self.dropoff_location}"

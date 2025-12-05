@@ -38,7 +38,7 @@ class BookingListCreateAPIView(generics.ListCreateAPIView):
 
 
 class BookingRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Booking.objects.all()
+    queryset = Booking.objects.filter(is_deleted=False)
     serializer_class = BookingSerializer
     permission_classes = [permissions.IsAuthenticated]
 
